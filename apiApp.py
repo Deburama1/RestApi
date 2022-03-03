@@ -18,6 +18,20 @@ def index():
     # list of object
     return render_template('index.html') #should be web application given by user
 
+def EQUAL(property,value):
+   return User.query.filter_by(property=value).all()
+
+def AND(a,b):
+   return User.query.filter_by(a).filter_by(b).all()
+
+def OR(a,b):
+    list = User()
+    list = User.query.filter_by(a).all() or User.filter_by(b).all()
+    return list
+
+
+
+
 @app.route('/post_user', methods=['GET','POST'])
 def post_user():
     if request.method == 'POST':
@@ -25,6 +39,17 @@ def post_user():
             flash('Please enter all the fields', 'error')
         else:
             user = User(request.form['id'],request.form['title'],request.form['content'],request.form['views'], request.form['timestamp'])
+    elif request.method == 'GET':
+        args = request.args
+        id = args.get('id')
+        title = args.get('title')
+        contents = args.get('contents')
+        views = args.get('views')
+        timestamp = args.get('timestamp')
+        
+
+
+
     # this add to the database the user
     db.session.add(user)
     # this saves this data in the database
